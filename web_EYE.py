@@ -24,14 +24,13 @@ def _take_out_list(Data, target_type):
 
 
 class EYE:
-    def __init__(self, url, header=None, timeout=20, separator="\n", keep_gif=False, smallest_length=2, img_tag=True, word_with_format=False, img_with_format=True, shortest_length=18, encoding=None, with_date=False):
+    def __init__(self, url, header=None, timeout=20, separator="\n", keep_gif=False, smallest_length=2, word_with_format=False, img_with_format=True, shortest_length=18, encoding=None, with_date=False):
         self.url = url
         self.header = header
         self.timeout = timeout
         self.separator = separator
         self.keep_gif = keep_gif
         self.smallest_length = smallest_length
-        self.img_tag = img_tag
         self.word_with_format = word_with_format
         self.img_with_format = img_with_format
         self.shortest_length = shortest_length
@@ -71,7 +70,7 @@ class EYE:
         "date": re.compile(r'(20[0-1][0-9]|[0-1][0-9])[^a-zA-Z0-9](1[0-2]|0?[0-9])[^a-zA-Z0-9](3[0-1]|2[0-9]|1[0-9]|0?[0-9]).?')
     }
 
-    @property
+
     def main(self):
         try:
             request = requests.get(url=self.url, params=self.header, timeout=self.timeout)
@@ -340,9 +339,9 @@ class EYE:
         if date_list:
             date_list = [[x, date_list.count(x)] for x in date_list]
             date_list.sort(key=lambda x: x[1], reverse=True)
-            self.date = date_list[0][0]
+            self.date = date_list[0][0].strip(" \t\r\n")
 
 # 示例
 if __name__ == "__main__":
     task = EYE(url=r"http://news.163.com/16/1228/07/C9BVN2SM0001875O.html", with_date=True)
-    print(task.main)
+    print(task.main())
